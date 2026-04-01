@@ -1,0 +1,27 @@
+ARG BASE_IMAGE=artifact.cloudwalk.work/rd_docker_release/nvidia/tritonserver-dev:24.03-py3-base
+FROM ${BASE_IMAGE}
+
+# This image is intentionally "runtime-like": sPilot mounts /models from host and runs:
+#   /models/engine.video_structure_v2/launcher ...
+# launcher will start tritonserver + tisv1_adapter.
+
+COPY opt/tritonserver /opt/tritonserver
+
+# Compatibility libs (copied from shared disk into build context by scripts)
+COPY compat/triton_compat /opt/tensorrtserver/lib
+COPY compat/opencv32 /opencv32
+COPY compat/opencv45 /opencv45
+COPY compat/openjp2 /openjp2
+COPY compat/trtcompat /trtcompat
+COPY compat/jpeg /jpeg_compat
+COPY compat/png /png_compat
+COPY compat/mkl /mkl_compat
+COPY compat/cuda /cuda_compat
+COPY compat/tiff /tiff_compat
+COPY compat/openexr /openexr_compat
+COPY compat/webp /webp_compat
+COPY compat/jbig /jbig_compat
+
+ENV LD_LIBRARY_PATH=/opt/tensorrtserver/lib:/opt/tritonserver/lib:/opt/tritonserver/backends/cpppipe:/trtcompat:/opencv32:/opencv45:/openjp2:/jpeg_compat:/png_compat:/mkl_compat:/cuda_compat:/tiff_compat:/openexr_compat:/webp_compat:/jbig_compat
+ENV LD_PRELOAD=/openjp2/libopenjp2.so.2.3.1
+ENV LD_BIND_NOW=1

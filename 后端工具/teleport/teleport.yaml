@@ -1,0 +1,31 @@
+version: v3
+teleport:
+  nodename: teleport-proxy-auth
+  data_dir: /var/lib/teleport
+  log:
+    output: stderr
+    severity: INFO
+  ca_pin: ""
+
+auth_service:
+  enabled: "yes"
+  listen_addr: 0.0.0.0:3025
+  cluster_name: school-cluster
+  proxy_listener_mode: separate
+
+# 关键修改：让Teleport监听内部端口（比如3080），Nginx监听443
+proxy_service:
+  enabled: "yes"
+  # 改为监听内部端口，不与Nginx冲突
+  web_listen_addr: 0.0.0.0:3080
+  tunnel_listen_addr: 0.0.0.0:3024
+  public_addr: "xxxxx:443"
+  # 不直接使用SSL证书，由Nginx处理SSL
+  https_key_file: ""
+  https_cert_file: ""
+  # 禁用ACME，由Nginx处理SSL
+  acme:
+    enabled: no
+
+ssh_service:
+  enabled: "no"

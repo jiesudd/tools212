@@ -1,0 +1,1 @@
+ufw allow proto tcp from 10.7.0.0/24 to any port 19522
