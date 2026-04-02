@@ -1,0 +1,123 @@
+{
+  meta: {
+    lastTouchedVersion: '2026.3.3',
+    lastTouchedAt: '2026-03-07T13:40:36.368Z',
+  },
+  browser: {
+    executablePath: '/usr/bin/chromium',
+    headless: true,
+    noSandbox: true,
+  },
+  models: {
+    providers: {
+      'custom-1': {
+        baseUrl: 'http://127.0.0.1:8000/v1',
+        apiKey: '__OPENCLAW_REDACTED__',
+        auth: 'api-key',
+        api: 'openai-completions',
+        authHeader: false,
+        models: [
+          {
+            id: 'qwen3.5',
+            name: 'Qwen3.5-3B',
+            api: 'openai-completions',
+            reasoning: true,
+            input: [
+              'text',
+              'image',
+            ],
+            cost: {
+              input: 0,
+              output: 0,
+              cacheRead: 0,
+              cacheWrite: 0,
+            },
+            contextWindow: 85000,
+            maxTokens: 8192,
+            compat: {
+              maxTokensField: 'max_tokens',
+              thinkingFormat: 'qwen',
+            },
+          },
+        ],
+      },
+    },
+  },
+  agents: {
+    defaults: {
+      model: 'custom-1/qwen3.5',
+      compaction: {
+        mode: 'safeguard',
+      },
+      timeoutSeconds: 180,
+    },
+  },
+  tools: {
+    deny: [
+      'web_search',
+    ],
+  },
+  commands: {
+    native: 'auto',
+    nativeSkills: 'auto',
+    restart: true,
+    ownerDisplay: 'raw',
+  },
+  channels: {
+    feishu: {
+      enabled: true,
+      appId: '__FEISHU_APP_ID_REDACTED__', // 已脱敏：飞书 App ID
+      appSecret: '__OPENCLAW_REDACTED__',
+      domain: 'feishu',
+      connectionMode: 'websocket',
+      requireMention: true,
+      dmPolicy: 'pairing',
+      groupPolicy: 'allowlist',
+      allowFrom: [],
+      groupAllowFrom: [],
+    },
+  },
+  gateway: {
+    controlUi: {
+      enabled: true,
+      allowedOrigins: [
+        'http://<INTERNAL_IP_REDACTED>:18789', // 已脱敏：内网 IP 地址
+        'http://127.0.0.1:18789',
+        'http://localhost:18789',
+      ],
+      allowInsecureAuth: true,
+    },
+    auth: {
+      mode: 'token',
+      token: '__OPENCLAW_REDACTED__',
+    },
+  },
+  plugins: {
+    allow: [
+      'feishu-openclaw-plugin',
+    ],
+    entries: {
+      feishu: {
+        enabled: false,
+      },
+      'feishu-openclaw-plugin': {
+        enabled: true,
+      },
+    },
+    installs: {
+      'feishu-openclaw-plugin': {
+        source: 'npm',
+        spec: '@larksuiteoapi/feishu-openclaw-plugin',
+        installPath: '/home/<USERNAME_REDACTED>/.openclaw/extensions/feishu-openclaw-plugin', // 已脱敏：系统用户名
+        version: '2026.3.7-beta.0',
+        resolvedName: '@larksuiteoapi/feishu-openclaw-plugin',
+        resolvedVersion: '2026.3.7-beta.0',
+        resolvedSpec: '@larksuiteoapi/feishu-openclaw-plugin@2026.3.7-beta.0',
+        integrity: 'sha512-<HASH_REDACTED>', // 已脱敏：部分 Hash 摘要（可选，防针对性反推）
+        shasum: '<SHASUM_REDACTED>',
+        resolvedAt: '2026-03-06T11:56:57.059Z',
+        installedAt: '2026-03-06T11:56:58.751Z',
+      },
+    },
+  },
+}
